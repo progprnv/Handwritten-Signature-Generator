@@ -178,9 +178,8 @@
     <footer>
         Made with ❤️ using HTML, CSS & JavaScript
     </footer>
-
-    <script>
-        let qr = null;
+ <script>
+        let qrInstance = null;
 
         function generateQR() {
             const url = document.getElementById('urlInput').value;
@@ -192,12 +191,14 @@
                 return;
             }
 
-            if (qr) {
-                qr.clear();
-                qrContainer.style.display = 'none';
+            // Clear previous QR code
+            if (qrInstance) {
+                qrInstance.clear();
+                qrContainer.innerHTML = ''; // Clear the container
             }
 
-            qr = new QRCode(document.getElementById("qrcode"), {
+            // Create new QR code
+            qrInstance = new QRCode(qrContainer, {
                 text: url,
                 width: 200,
                 height: 200,
@@ -206,12 +207,16 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
 
+            // Show container and enable download
             qrContainer.style.display = 'flex';
             downloadBtn.disabled = false;
+
+            // Add generated class for animation
+            qrContainer.classList.add('generated');
         }
 
         function downloadQR() {
-            const canvas = document.querySelector('#qrcode canvas');
+            const canvas = qrContainer.querySelector('canvas');
             const image = canvas.toDataURL("image/png");
             const link = document.createElement('a');
             link.download = 'qrcode.png';
@@ -219,7 +224,7 @@
             link.click();
         }
 
-        // Enable generate button when input has text
+        // Input validation
         document.getElementById('urlInput').addEventListener('input', function(e) {
             document.querySelector('.button-group button').disabled = !e.target.value;
         });
