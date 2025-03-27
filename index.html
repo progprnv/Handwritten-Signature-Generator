@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handwritten Signature Generator</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Import a handwritten-style font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -20,9 +19,19 @@
             >
         </div>
         <div class="signature-output" id="signature-output">
-            <!-- Signature will appear here -->
+            <!-- Signature will appear here dynamically -->
         </div>
         <p class="hint">Your signature will appear above as you type.</p>
     </div>
+
+    <!-- JavaScript for real-time updates -->
+    <script>
+        const input = document.getElementById("signature-input");
+        const output = document.getElementById("signature-output");
+
+        input.addEventListener("input", (e) => {
+            output.textContent = e.target.value;
+        });
+    </script>
 </body>
 </html>
