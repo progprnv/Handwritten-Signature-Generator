@@ -1,0 +1,82 @@
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.signature-generator {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.input-container {
+    margin: 20px 0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #6c63ff;
+}
+
+.signature-output {
+    min-height: 80px;
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hint {
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Dynamic Signature Effect (Updates as user types) */
+#signature-input:focus + .signature-output,
+#signature-input:valid + .signature-output {
+    border-color: #6c63ff;
+    background: rgba(108, 99, 255, 0.05);
+}
+
+/* Animation for signature appearance */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.signature-output {
+    animation: fadeIn 0.5s ease-out;
+}
