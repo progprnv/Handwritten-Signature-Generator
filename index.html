@@ -3,87 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Endless Dungeon RPG</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Neon QR Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin-top: 2rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        h1 {
+            color: #4cc9f0;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f72585;
+            box-shadow: 0 0 15px rgba(247, 37, 133, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #4cc9f0, #3a86ff);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .qr-container {
+            display: none;
+            justify-content: center;
+            margin: 2rem 0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #f72585, #7209b7);
+            margin-top: 1rem;
+        }
+
+        footer {
+            margin-top: auto;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            button {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <div class="header">
-            <h1>ENDLESS DUNGEON</h1>
-            <div class="stats">
-                <div class="stat">
-                    <span class="stat-label">Level:</span>
-                    <span id="player-level" class="stat-value">1</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">HP:</span>
-                    <span id="player-hp" class="stat-value">100/100</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">XP:</span>
-                    <span id="player-xp" class="stat-value">0/100</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Floor:</span>
-                    <span id="dungeon-floor" class="stat-value">1</span>
-                </div>
-            </div>
-        </div>
+    <div class="container">
+        <h1>Neon QR Generator</h1>
         
-        <div class="game-area">
-            <div class="scene" id="game-scene">
-                <div class="enemy-display">
-                    <div class="enemy-sprite" id="enemy-sprite">👾</div>
-                    <div class="enemy-stats">
-                        <div class="enemy-name" id="enemy-name">Goblin</div>
-                        <div class="enemy-hp" id="enemy-hp">HP: 30/30</div>
-                    </div>
-                </div>
-                <div class="battle-log" id="battle-log">
-                    <p>A wild Goblin appears!</p>
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button id="attack-btn" class="btn attack-btn">ATTACK</button>
-                <button id="special-btn" class="btn special-btn">SPECIAL</button>
-                <button id="heal-btn" class="btn heal-btn">HEAL</button>
-                <button id="flee-btn" class="btn flee-btn">FLEE</button>
-            </div>
+        <div class="input-group">
+            <input type="url" id="urlInput" placeholder="Enter URL here...">
         </div>
-        
-        <div class="inventory">
-            <h3>INVENTORY</h3>
-            <div class="inventory-items">
-                <div class="item">Health Potion: <span id="health-potions">3</span></div>
-                <div class="item">Attack Boost: <span id="attack-boosts">1</span></div>
-            </div>
+
+        <div class="button-group">
+            <button onclick="generateQR()">Generate QR</button>
+            <button class="download-btn" onclick="downloadQR()" id="downloadBtn" disabled>Download</button>
         </div>
-        
-        <div class="achievements">
-            <h3>ACHIEVEMENTS</h3>
-            <div class="achievement-list" id="achievement-list">
-                <div class="achievement">Floor 5 Reached</div>
-                <div class="achievement locked">Floor 10 Reached</div>
-            </div>
+
+        <div class="qr-container" id="qrContainer">
+            <div id="qrcode"></div>
         </div>
     </div>
-    
-    <div class="modal" id="level-up-modal">
-        <div class="modal-content">
-            <h2>LEVEL UP!</h2>
-            <p>You are now level <span id="new-level">2</span>!</p>
-            <p>+10 Max HP</p>
-            <p>+5 Attack</p>
-            <button id="close-modal" class="btn">CONTINUE</button>
-        </div>
-    </div>
-    
-    <audio id="battle-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-small-hit-in-a-game-2072.mp3" preload="auto"></audio>
-    <audio id="heal-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
-    <audio id="level-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
-    
-    <script src="game.js"></script>
+
+    <footer>
+        Made with ❤️ using HTML, CSS & JavaScript
+    </footer>
+
+    <script>
+        let qr = null;
+
+        function generateQR() {
+            const url = document.getElementById('urlInput').value;
+            const qrContainer = document.getElementById('qrContainer');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            if (!url) {
+                alert('Please enter a URL!');
+                return;
+            }
+
+            if (qr) {
+                qr.clear();
+                qrContainer.style.display = 'none';
+            }
+
+            qr = new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark: "#1a1a2e",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            qrContainer.style.display = 'flex';
+            downloadBtn.disabled = false;
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            const image = canvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = image;
+            link.click();
+        }
+
+        // Enable generate button when input has text
+        document.getElementById('urlInput').addEventListener('input', function(e) {
+            document.querySelector('.button-group button').disabled = !e.target.value;
+        });
+    </script>
 </body>
 </html>
