@@ -3,35 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handwritten Signature Generator</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Endless Dungeon RPG</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="signature-generator">
-        <h1>Handwritten Signature Generator</h1>
-        <div class="input-container">
-            <input 
-                type="text" 
-                id="signature-input" 
-                placeholder="Type your name..." 
-                maxlength="30"
-            >
+    <div class="game-container">
+        <div class="header">
+            <h1>ENDLESS DUNGEON</h1>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Level:</span>
+                    <span id="player-level" class="stat-value">1</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">HP:</span>
+                    <span id="player-hp" class="stat-value">100/100</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">XP:</span>
+                    <span id="player-xp" class="stat-value">0/100</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Floor:</span>
+                    <span id="dungeon-floor" class="stat-value">1</span>
+                </div>
+            </div>
         </div>
-        <div class="signature-output" id="signature-output">
-            <!-- Signature will appear here dynamically -->
+        
+        <div class="game-area">
+            <div class="scene" id="game-scene">
+                <div class="enemy-display">
+                    <div class="enemy-sprite" id="enemy-sprite">👾</div>
+                    <div class="enemy-stats">
+                        <div class="enemy-name" id="enemy-name">Goblin</div>
+                        <div class="enemy-hp" id="enemy-hp">HP: 30/30</div>
+                    </div>
+                </div>
+                <div class="battle-log" id="battle-log">
+                    <p>A wild Goblin appears!</p>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="attack-btn" class="btn attack-btn">ATTACK</button>
+                <button id="special-btn" class="btn special-btn">SPECIAL</button>
+                <button id="heal-btn" class="btn heal-btn">HEAL</button>
+                <button id="flee-btn" class="btn flee-btn">FLEE</button>
+            </div>
         </div>
-        <p class="hint">Your signature will appear above as you type.</p>
+        
+        <div class="inventory">
+            <h3>INVENTORY</h3>
+            <div class="inventory-items">
+                <div class="item">Health Potion: <span id="health-potions">3</span></div>
+                <div class="item">Attack Boost: <span id="attack-boosts">1</span></div>
+            </div>
+        </div>
+        
+        <div class="achievements">
+            <h3>ACHIEVEMENTS</h3>
+            <div class="achievement-list" id="achievement-list">
+                <div class="achievement">Floor 5 Reached</div>
+                <div class="achievement locked">Floor 10 Reached</div>
+            </div>
+        </div>
     </div>
-
-    <!-- JavaScript for real-time updates -->
-    <script>
-        const input = document.getElementById("signature-input");
-        const output = document.getElementById("signature-output");
-
-        input.addEventListener("input", (e) => {
-            output.textContent = e.target.value;
-        });
-    </script>
+    
+    <div class="modal" id="level-up-modal">
+        <div class="modal-content">
+            <h2>LEVEL UP!</h2>
+            <p>You are now level <span id="new-level">2</span>!</p>
+            <p>+10 Max HP</p>
+            <p>+5 Attack</p>
+            <button id="close-modal" class="btn">CONTINUE</button>
+        </div>
+    </div>
+    
+    <audio id="battle-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-small-hit-in-a-game-2072.mp3" preload="auto"></audio>
+    <audio id="heal-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
+    <audio id="level-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
+    
+    <script src="game.js"></script>
 </body>
 </html>
